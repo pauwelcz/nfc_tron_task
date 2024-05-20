@@ -17,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Currency } from '@faker-js/faker';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -34,7 +35,7 @@ export class AppController {
   @ApiOperation({ summary: 'Request finds the customer by id.' })
   @ApiResponse({ status: 404, description: 'Customer not found' })
   @ApiOkResponse()
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: number): Promise<Customer> {
     return this.dataService.findOne(id);
   }
 
@@ -45,7 +46,7 @@ export class AppController {
     status: 400,
     description: 'Bad request or customer with email exists in database.',
   })
-  create(@Body() createCustomerDto: CreateCustomerDto) {
+  create(@Body() createCustomerDto: CreateCustomerDto): Promise<Customer> {
     return this.dataService.create(createCustomerDto);
   }
 
@@ -59,14 +60,14 @@ export class AppController {
   update(
     @Param('id') id: number,
     @Body() updateCustomerDto: UpdateCustomerDto,
-  ) {
+  ): Promise<Customer> {
     return this.dataService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Request deletes existing customer.' })
   @ApiResponse({ status: 404, description: 'Customer to delete not found' })
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): Promise<Customer> {
     return this.dataService.remove(id);
   }
 }

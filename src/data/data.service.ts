@@ -39,7 +39,7 @@ export class DataService {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  findAll() {
+  findAll(): Promise<Customer[]> {
     return this.customersRepository.find();
   }
 
@@ -52,7 +52,7 @@ export class DataService {
     return customer;
   }
 
-  async create(createCustomerDto: CreateCustomerDto) {
+  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     const date = new Date();
     await this.checkEmail(createCustomerDto.email);
     const newCustomer = this.customersRepository.create({
@@ -79,7 +79,7 @@ export class DataService {
     return this.findOne(id);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Customer> {
     const customer = await this.findOne(id);
     return this.customersRepository.remove(customer);
   }
