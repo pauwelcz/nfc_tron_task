@@ -8,6 +8,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './entities/customer.entity';
 import { Repository } from 'typeorm';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class DataService {
@@ -15,6 +16,28 @@ export class DataService {
     @InjectRepository(Customer)
     private customersRepository: Repository<Customer>,
   ) {}
+
+  async onModuleInit() {
+    await this.customersRepository.delete({});
+
+    const customersToCreate = [];
+    for (let i = 0; i <= this.getRandomIntFromInterval(1, 23); i++) {
+      customersToCreate.push(this.create(this.createRandomCustomer()));
+    }
+    await Promise.all(customersToCreate);
+  }
+
+  createRandomCustomer(): CreateCustomerDto {
+    return {
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      email: faker.internet.email(),
+    };
+  }
+
+  getRandomIntFromInterval(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
 
   findAll() {
     return this.customersRepository.find();
@@ -29,7 +52,7 @@ export class DataService {
     return customer;
   }
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+  async create(createCustomerDto: CreateCustomerDto) {
     await this.checkEmail(createCustomerDto.email);
     const newCustomer = this.customersRepository.create(createCustomerDto);
     return this.customersRepository.save(newCustomer);
