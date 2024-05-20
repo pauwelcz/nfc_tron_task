@@ -10,13 +10,14 @@ import {
 import { DataService } from './data/data.service';
 import { CreateCustomerDto } from './data/dto/create-customer.dto';
 import { UpdateCustomerDto } from './data/dto/update-customer.dto';
+import { Customer } from './data/entities/customer.entity';
 
 @Controller()
 export class AppController {
   constructor(private readonly dataService: DataService) {}
 
   @Get()
-  findAll(): string {
+  findAll(): Promise<Customer[]> {
     return this.dataService.findAll();
   }
 

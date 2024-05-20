@@ -1,26 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Customer } from './entities/customer.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DataService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
-  }
+  constructor(
+    @InjectRepository(Customer)
+    private customersRepository: Repository<Customer>,
+  ) {}
 
   findAll() {
-    return `This action returns all data`;
+    return this.customersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: number): Promise<Customer> {
+    const customer = await this.customersRepository.findOne({ where: { id } });
+    if (!customer) {
+      throw new NotFoundException(`Customer with id ${id} does not exist.`);
+    }
+
+    return customer;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+    await this.checkEmail(createCustomerDto.email);
+    const newCustomer = this.customersRepository.create(createCustomerDto);
+    return this.customersRepository.save(newCustomer);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async update(
+    id: number,
+    updateCustomerDto: UpdateCustomerDto,
+  ): Promise<Customer> {
+    await this.findOne(id);
+    if (updateCustomerDto.email) {
+      await this.checkEmail(updateCustomerDto.email, id);
+    }
+
+    await this.customersRepository.update(id, updateCustomerDto);
+    return this.findOne(id);
+  }
+
+  async remove(id: number) {
+    const customer = await this.findOne(id);
+    return this.customersRepository.remove(customer);
+  }
+
+  private async checkEmail(email: string, id?: number) {
+    const customer = await this.customersRepository.findOne({
+      where: { email },
+    });
+
+    if (customer && customer.id !== id) {
+      throw new BadRequestException(`Customer with this email exists.`);
+    }
   }
 }
