@@ -53,12 +53,9 @@ export class DataService {
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    const date = new Date();
     await this.checkEmail(createCustomerDto.email);
     const newCustomer = this.customersRepository.create({
       ...createCustomerDto,
-      created_at: date,
-      updated_at: date,
     });
     return this.customersRepository.save(newCustomer);
   }
@@ -73,8 +70,7 @@ export class DataService {
     }
 
     await this.customersRepository.update(id, {
-      ...updateCustomerDto,
-      updated_at: new Date(),
+      ...updateCustomerDto
     });
     return this.findOne(id);
   }
