@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDatumDto } from './dto/create-datum.dto';
-import { UpdateDatumDto } from './dto/update-datum.dto';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Injectable()
 export class DataService {
-  create(createDatumDto: CreateDatumDto) {
-    return 'This action adds a new datum';
+  create(createCustomerDto: CreateCustomerDto) {
+    return 'This action adds a new customer';
   }
 
   findAll() {
@@ -13,14 +13,14 @@ export class DataService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} datum`;
+    return `This action returns a #${id} customer`;
   }
 
-  update(id: number, updateDatumDto: UpdateDatumDto) {
-    return `This action updates a #${id} datum`;
+  update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    return `This action updates a #${id} customer`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} datum`;
+    return `This action removes a #${id} customer`;
   }
 }
