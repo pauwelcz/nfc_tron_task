@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { Column } from 'typeorm/decorator/columns/Column';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 import { Entity } from 'typeorm/decorator/entity/Entity';
@@ -16,9 +17,11 @@ export class Customer {
   @Column()
   email: string;
 
-  @Column()
-  created_at: string;
+  @Column({ type: 'timestamptz' })
+  @Type(() => Date)
+  created_at: Date;
 
-  @Column()
-  updated_at: string;
+  @Column({ type: 'timestamptz' })
+  @Type(() => Date)
+  updated_at: Date;
 }
