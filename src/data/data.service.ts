@@ -73,12 +73,10 @@ export class DataService {
       await this.isEmailUsed(updateCustomerDto.email, id);
     }
 
-    await this.customersRepository.save({
-      id,
+    return this.customersRepository.save({
       ...updateCustomerDto,
       updated_at: new Date(),
     });
-    return this.findOne(id);
   }
 
   async remove(id: number): Promise<Customer> {
