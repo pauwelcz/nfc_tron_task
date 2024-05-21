@@ -2,13 +2,12 @@ version: '3.9'
 services:
   db:
     container_name: db
-    image: postgres
+    image: mysql
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: nfc-tron
+      MYSQL_ROOT_PASSWORD: ${MYSQL_SQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_SQL_DATABASE}
     ports:
-      - '5432:5432'
+      - '3306:3306'
     volumes:
       - ./dataset:/docker-entrypoint-initdb.d

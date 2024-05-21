@@ -5,6 +5,6 @@ CREATE TABLE customers (
     firstname VARCHAR (50) NOT NULL,
     lastname VARCHAR (50) NOT NULL,
     email VARCHAR (255) UNIQUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
 );
