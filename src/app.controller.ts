@@ -17,7 +17,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Currency } from '@faker-js/faker';
 
 @ApiTags('customers')
 @Controller('customers')
