@@ -50,8 +50,8 @@ export class AppController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Request updates existing customer.' })
   @ApiOkResponse()
-  @ApiResponse({ status: 201, description: 'Customer is created.' })
   @ApiResponse({
     status: 400,
     description: 'Bad request or customer with email exists in database.',
