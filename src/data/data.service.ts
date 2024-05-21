@@ -55,7 +55,7 @@ export class DataService {
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    await this.checkEmail(createCustomerDto.email);
+    await this.isEmailUsed(createCustomerDto.email);
     const newCustomer = this.customersRepository.create({
       ...createCustomerDto,
     });
@@ -68,7 +68,7 @@ export class DataService {
   ): Promise<Customer> {
     await this.findOne(id);
     if (updateCustomerDto.email) {
-      await this.checkEmail(updateCustomerDto.email, id);
+      await this.isEmailUsed(updateCustomerDto.email, id);
     }
 
     await this.customersRepository.update(id, {
@@ -82,7 +82,7 @@ export class DataService {
     return this.customersRepository.remove(customer);
   }
 
-  private async checkEmail(email: string, id?: number) {
+  private async isEmailUsed(email: string, id?: number) {
     const customer = await this.customersRepository.findOne({
       where: { email },
     });
