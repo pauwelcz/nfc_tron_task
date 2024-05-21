@@ -50,7 +50,8 @@ export class AppController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Request updates existing customer.' })
+  @ApiOkResponse()
+  @ApiResponse({ status: 201, description: 'Customer is created.' })
   @ApiResponse({
     status: 400,
     description: 'Bad request or customer with email exists in database.',
@@ -65,6 +66,7 @@ export class AppController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Request deletes existing customer.' })
+  @ApiOkResponse()
   @ApiResponse({ status: 404, description: 'Customer to delete not found' })
   remove(@Param('id') id: number): Promise<Customer> {
     return this.dataService.remove(id);
