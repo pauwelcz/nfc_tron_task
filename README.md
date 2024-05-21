@@ -1,73 +1,119 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Email Sender
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#init-database">Init database</a></li>
+        <li><a href="#run-project">Run project</a></li>
+        <li><a href="#run-tests">Run tests</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#project-routes">Project routes</a>
+      <ul>
+        <li><a href="#get-customers">GET customers</a></li>
+        <li><a href="#get-customers-id">GET customers/:id</a></li>
+        <li><a href="#post-customers">POST customers</a></li>
+        <li><a href="#patch-customers-id">PATCH customers/:id</a></li>
+        <li><a href="#delete-customers-id">DELETE customers/:id</a></li>
+        <li><a href="#swagger">Swagger</a></li>
+      </ul>
+    </li>
+    <li><a href="#author">Author</a></li>
+  </ol>
+</details>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## About The Project
 
-## Description
+This project is part of a technical round. Project demonstrates basic CRUD operations.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Built with
 
-## Installation
+- Visual Studio Code
+- NodeJS v18.16.0
+- NestJS 10.2.0
+- Docker 25.0.3
 
-```bash
-$ pnpm install
+### Getting started
+
+#### Prerequisities
+
+- NodeJS v18.16.0
+- NestJS 10.2.0
+- Docker 25.0.3
+- pnpm
+
+#### Init database
+
+1. Create `.env` file and fill it with variables (variable names are included in `.env.example` file ). 
+2. Start Docker, if you do not have it started
+3. Open terminal
+4. Run command `docker compose up --build`
+
+After these steps you should be able to connect to database with created empty table `customers` in Docker container.
+
+#### Run project
+
+1. Install dependencies with `pnpm i`
+2. Execute project with `pnpm run start`
+
+#### Run tests
+1. Execute tests with `pnpm run test`
+
+### Project routes
+
+#### GET customers
+
+This route will get all customers.
+
+### GET customers/:id
+
+Request will find existing customer. 
+
+#### POST customers
+
+Request will create new customer. `Email` must be unique for each user in the database!
+
+Request body example:
+
+```json
+  "email": "JohnDoe@email.com",
+  "firstname": "John",
+  "lastname": "Doe",
 ```
 
-## Running the app
+#### PATCH customers/:id
 
-```bash
-# development
-$ pnpm run start
+Request will patch existing customer. `Email` must be unique for each user in the database!
 
-# watch mode
-$ pnpm run start:dev
+Request body example:
 
-# production mode
-$ pnpm run start:prod
+```json
+  "email": "JohnDoe@email.com",
+  "firstname": "John",
+  "lastname": "Doe",
 ```
 
-## Test
+#### DELETE customers/:id
 
-```bash
-# unit tests
-$ pnpm run test
+Request will delete existing customer.
 
-# e2e tests
-$ pnpm run test:e2e
+#### Swagger
 
-# test coverage
-$ pnpm run test:cov
-```
+You can use also [Swagger](https://docs.nestjs.com/openapi/introduction) documentation via `http://localhost:{{PORT}}/api`. Default `PORT` number is 3000. Otherwise it depends on value in `.env` file.
 
-## Support
+### Author
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Name: **Pavel Sedlář**
+- <a href="https://www.linkedin.com/in/pavel-sedl%C3%A1%C5%99-574039117/">LinkedIn Profile</a>
+- <a href="https://github.com/pauwelcz/nfc_tron_task">Github repository</a>
