@@ -73,7 +73,8 @@ export class DataService {
       await this.isEmailUsed(updateCustomerDto.email, id);
     }
 
-    await this.customersRepository.update(id, {
+    await this.customersRepository.save({
+      id,
       ...updateCustomerDto,
       updated_at: new Date(),
     });
@@ -85,7 +86,7 @@ export class DataService {
     return this.customersRepository.remove(customer);
   }
 
-  private async isEmailUsed(email: string, id?: number) {
+  async isEmailUsed(email: string, id?: number) {
     const customer = await this.customersRepository.findOne({
       where: { email },
     });
