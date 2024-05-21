@@ -75,6 +75,7 @@ export class DataService {
 
     await this.customersRepository.update(id, {
       ...updateCustomerDto,
+      updated_at: new Date(),
     });
     return this.findOne(id);
   }
