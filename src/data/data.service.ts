@@ -20,8 +20,10 @@ export class DataService {
   async onModuleInit() {
     await this.customersRepository.delete({});
 
+    const min = parseInt(process.env.RANDOM_MIN) || 25;
+    const max = parseInt(process.env.RANDOM_MAX) || 50;
     const customersToCreate = [];
-    for (let i = 0; i <= this.getRandomIntFromInterval(1, 23); i++) {
+    for (let i = 0; i <= this.getRandomIntFromInterval(min, max); i++) {
       customersToCreate.push(this.create(this.createRandomCustomer()));
     }
     await Promise.all(customersToCreate);
@@ -70,7 +72,7 @@ export class DataService {
     }
 
     await this.customersRepository.update(id, {
-      ...updateCustomerDto
+      ...updateCustomerDto,
     });
     return this.findOne(id);
   }
