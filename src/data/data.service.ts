@@ -9,12 +9,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './entities/customer.entity';
 import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable()
 export class DataService {
   constructor(
     @InjectRepository(Customer)
     private customersRepository: Repository<Customer>,
+    private sharedService: SharedService,
   ) {}
 
   async onModuleInit() {
@@ -23,7 +25,11 @@ export class DataService {
     const min = parseInt(process.env.RANDOM_MIN) || 25;
     const max = parseInt(process.env.RANDOM_MAX) || 50;
     const customersToCreate = [];
-    for (let i = 0; i <= this.getRandomIntFromInterval(min, max); i++) {
+    for (
+      let i = 0;
+      i <= this.sharedService.getRandomIntFromInterval(min, max);
+      i++
+    ) {
       customersToCreate.push(this.create(this.createRandomCustomer()));
     }
     await Promise.all(customersToCreate);
@@ -35,10 +41,6 @@ export class DataService {
       lastname: faker.person.lastName(),
       email: faker.internet.email(),
     };
-  }
-
-  getRandomIntFromInterval(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   findAll(): Promise<Customer[]> {
